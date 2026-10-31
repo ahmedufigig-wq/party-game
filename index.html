@@ -57,7 +57,7 @@ const go=v=>{view=v;render()};
 /* ---------- الواجهات ---------- */
 function render(){
  const gi=$('#gi'),gv=gi&&gi.value,gf=gi&&D.activeElement===gi;
- app.innerHTML=!P?welcome():view==='home'?home():view==='pick'?pick():view==='join'?join():room();
+ app.innerHTML=!P?welcome():view==='home'?home():view==='pick'?pickV():view==='join'?join():room();
  const h=$('#cvh');if(h)h.appendChild(CV);
  const g2=$('#gi');if(g2&&gv){g2.value=gv;if(gf)g2.focus()}
 }
@@ -65,7 +65,7 @@ function welcome(){return `<div class="wrap tc"><div class="big">🎉</div><h1>�
 function pAv(i){selAv=i;D.querySelectorAll('.av b').forEach((e,j)=>e.classList.toggle('on',j==i))}
 function reg(){const n=$('#nm').value.trim();if(!n)return toast('اكتب اسمك أولاً');P={nm:n,av:AV[selAv],co:50,en:5,enT:Date.now(),w:0,g:0};sv();view='home';render()}
 function home(){regen();return `<div class="wrap"><div class="card row"><span class="av1">${P.av}</span><div class="grow"><b>${esc(P.nm)}</b><div class="mu sm">🏆 ${P.w} فوز · 🎮 ${P.g} لعبة</div></div></div><div class="row"><div class="card c1">🪙 ${P.co}</div><div class="card c1">⚡ ${P.en}/5</div></div><button class="btn" onclick="go('pick')">🏠 إنشاء غرفة</button><button class="btn b2" onclick="go('join')">📡 الانضمام لغرفة</button><p class="mu sm tc">كل لعبة تستهلك ⚡1 وتتجدد الطاقة كل 3 دقائق. الفوز يمنحك عملات 🪙</p></div>`}
-function pick(){return `<div class="wrap"><h2>اختر اللعبة</h2>${Object.entries(GM).map(([k,v])=>`<div class="card row" onclick="host('${k}')"><span class="big">${v[0]}</span><div><b>${v[1]}</b><div class="mu sm">${v[2]}</div></div></div>`).join('')}<button class="btn b3" onclick="go('home')">رجوع</button></div>`}
+function pickV(){return `<div class="wrap"><h2>اختر اللعبة</h2>${Object.entries(GM).map(([k,v])=>`<div class="card row" onclick="host('${k}')"><span class="big">${v[0]}</span><div><b>${v[1]}</b><div class="mu sm">${v[2]}</div></div></div>`).join('')}<button class="btn b3" onclick="go('home')">رجوع</button></div>`}
 function join(){return `<div class="wrap"><h2>📡 الانضمام لغرفة</h2><div class="card col"><p class="mu sm">اتصل بواي فاي المستضيف ثم اكتب عنوانه (غالباً 192.168.43.1)</p><input id="ip" class="inp" style="direction:ltr" value="${esc(P.ip||'192.168.43.1')}"><button class="btn b2" onclick="joinWS($('#ip').value.trim())">انضمام</button><button class="btn b3" onclick="joinBC()">وضع تجريبي (نفس الجهاز)</button></div><button class="btn b3" onclick="go('home')">رجوع</button></div>`}
 function sbd(){return `<div class="sb">${Object.entries(S.pl).sort((a,b)=>b[1].sc-a[1].sc).map(([id,p])=>`<div class="chip ${id===myId?'me':''}">${p.a} ${esc(p.n)} <b>${p.sc}</b></div>`).join('')}</div>`}
 function room(){
